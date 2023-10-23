@@ -1,0 +1,7 @@
+let a;
+if (true) {
+            a="😃";
+        } else {
+            a="🙁";
+        }
+        return a
