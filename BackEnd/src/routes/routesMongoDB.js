@@ -114,6 +114,85 @@ routerBD.post('/Proyect', async function(req, res){
             return res.status(200).json(proyect)
 
         }else{
+            console.log(`Error proyect no encontrada`);
+            const error= new Error("Error proyect no encontrada")
+            error.code=9997
+            return res.status(500).json(error)
+        }
+        
+    } catch (error) {
+        console.log(`Error`);
+        return res.status(500).json(error)
+    }
+})
+
+routerBD.get('/Skills', async function(req, res){
+    try {
+        const result = await Skill.find({}).distinct('ability')
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+
+routerBD.get('/Topics', async function(req, res){
+    try {
+        const result = await Proyect.find({}).distinct('topic')
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+routerBD.post('/User/Skills', async function(req, res){
+    const {abilitys}=req.body;
+    console.log(abilitys)
+    try {
+        const result = await Usuario.find({ 
+            skills: { $in: abilitys } 
+        })
+        res.status(200).json(result)
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+routerBD.post('/User/Topics', async function(req, res){
+    const {topics}=req.body;
+    try {
+        let result = await Proyect.find({ 
+            topic:{ $in: topics} 
+        },{"user":1,_id:0})
+
+        result=result.map((elemennt)=>elemennt.user)
+        
+        result=await Usuario.find({"name": { $in: result}})
+    
+        return res.status(200).json(result)
+        
+
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json(error)
+    }
+})
+
+
+
+routerBD.post('/Proyect', async function(req, res){
+    const {title}=req.body;
+
+    try {
+        const proyect=await Proyect.findOne({title:title});//verificar usuario existe
+        if(proyect){//existe
+            return res.status(200).json(proyect)
+
+        }else{
             console.log(`Error Proyect no encontrado`);
             const error= new Error("Error Proyect no encontrado")
             error.code=9997
@@ -274,7 +353,8 @@ routerBD.post('/User/Del/Skill', async function(req, res){
         }
         
     } catch (error) {
-        console.log(`Error`);
+        console.log(error);
+
         return res.status(500).json(error)
     }
 
@@ -314,8 +394,7 @@ async function delskills2user(name,userskills){
     for (let i = 0; i < userskills.length; i++) {
 
         userskill=await Skill.findOne({ability:userskills[i]});
-        if(userskill) {//new skill
-            console.log("userfind")
+        if(userskill) {//skill finded
             const index = userskill.users.indexOf(name);
             if (index > -1) {//skill ya contiene usuario
                 userskill.users.splice(index, 1);
@@ -330,14 +409,14 @@ async function delskills2user(name,userskills){
 
 routerBD.post('/Skill/Focus', async function(req, res){
 
-    const {focus,skill}=req.body;      
+    const {focus,ability}=req.body;      
 
     try {
-        const ability=await Skill.findOne({ability:skill});//verificar usuario existe
-        if(ability){//existe
+        const skill=await Skill.findOne({"ability":ability});//verificar usuario existe
+        if(skill){//existe
 
-                ability.focus=focus;//update skills
-                let guardado=await ability.save();
+                skill.focus=focus;//update skills
+                let guardado=await skill.save();
                 return res.status(200).json(guardado)
             
         }else{
