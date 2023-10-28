@@ -28,8 +28,16 @@ const app=express();
 app.use(express.json())// permite recibir json
 app.use(express.urlencoded({extended:false}))//no recibir json en la barra de busqueda
 
+const corsfront=(req, res, next) => {
+    res.setHeader("Access-Control-Allow-Origin","*");
+    res.setHeader("Access-Control-Allow-Methods", "POST, GET, PUT");
+    res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+    next();
+}
+app.use(corsfront)
 app.use("/api/ST/",routesST)
 app.use("/api/BD/",routesBD)
+
 //app.listen(process.env.Port)
 app.listen(3000)
 
