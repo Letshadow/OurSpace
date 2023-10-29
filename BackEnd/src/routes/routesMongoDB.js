@@ -8,8 +8,8 @@ import Proyect from "../models/Proyect.js";
 //import authJWT from "../middleware/jwt.js";
 const routerBD = Router();
 
-routerBD.get("/hello", function(req,res){
-    res.json({"Hola": "Mundo"})
+routerBD.get("/", function(req,res){
+    res.json({"Hola": "Mundo MongoDB"})
 })
 
 routerBD.get('/Users', async function(req, res){
@@ -22,7 +22,7 @@ routerBD.get('/Users', async function(req, res){
     }
 })
 
-routerBD.post('/registro', async function(req, res){
+routerBD.post('/Register', async function(req, res){
 
     const {name,pass,skills=[]}=req.body;
 
@@ -148,11 +148,11 @@ routerBD.get('/Topics', async function(req, res){
 })
 
 routerBD.post('/User/Skills', async function(req, res){
-    const {abilitys}=req.body;
-    console.log(abilitys)
+    const {ability}=req.body;
+    console.log(ability)
     try {
         const result = await Usuario.find({ 
-            skills: { $in: abilitys } 
+            skills: { $in: ability } 
         })
         res.status(200).json(result)
     } catch (error) {
@@ -162,10 +162,10 @@ routerBD.post('/User/Skills', async function(req, res){
 })
 
 routerBD.post('/User/Topics', async function(req, res){
-    const {topics}=req.body;
+    const {topic}=req.body;
     try {
         let result = await Proyect.find({ 
-            topic:{ $in: topics} 
+            topic:{ $in: topic} 
         },{"user":1,_id:0})
 
         result=result.map((elemennt)=>elemennt.user)
@@ -251,7 +251,7 @@ routerBD.post('/User/Del/Contact', async function(req, res){
                 
                 var index = user.contacts.indexOf(contact);
 
-                if (index > -1) {//proyect ya contiene usuario
+                if (index > -1) {//usuario contiene contacto
                     user.contacts.splice(index, 1);
                 }
 
@@ -441,7 +441,7 @@ routerBD.post('/User/Add/Proyect', async function(req, res){
         const user=await Usuario.findOne({name:name});//verificar usuario existe
         if(user){//existe
             if (user.pass==pass) {
-                const newskills= await addproyects2user(name,proyects);
+                const newproyects= await addproyects2user(name,proyects);
                 for (let i = 0; i < proyects.length; i++) {
                     if (!user.proyects.find((element) => element == proyects[i].title)) {//proyect ya contiene usuario
                         user.proyects=user.proyects.concat(proyects[i].title);//update proyect
@@ -449,7 +449,7 @@ routerBD.post('/User/Add/Proyect', async function(req, res){
                 }
 
                 let guardado=await user.save();
-                guardado.addnew=newskills;//agregar listado para completar
+                guardado.addnew=newproyects;//agregar listado para completar
 
                 return res.status(200).json(guardado)
             }else{
@@ -486,9 +486,11 @@ routerBD.post('/User/Del/Proyect', async function(req, res){
                     index = user.proyects.indexOf(proyects[i].title);
                     if (index > -1) {//proyect ya contiene usuario
                         user.proyects.splice(index, 1);
+                    }else{
+                        console.log(`Error not proyect`);
                     }
                 }
-                await delproyects2user(proyects);
+                await delproyects2user(name,proyects);
 
                 let guardado=await user.save();
                 return res.status(200).json(guardado)
@@ -545,12 +547,19 @@ async function addproyects2user(name,userproyects){
     return newproyects
 }
 
-async function delproyects2user(userproyects){
+async function delproyects2user(name,userproyects){
+    let userproyect=null;
     for (let i = 0; i < userproyects.length; i++) {
-        console.log(userproyects[i].title)
-        await Proyect.deleteMany({title:userproyects[i].title});
+        userproyect=await Proyect.findOne({title:userproyects[i].title});
+        if(userproyect) {//proyect foud
+            if (userproyect.user==name) {//proyect ya contiene usuario
+                await Proyect.deleteMany({title:userproyects[i].title});
+                console.log("delete "+userproyects[i].title)
+            }else{
+                console.log("Not user "+userproyects[i].title)
+            }
+        }
     }
-    console.log("delete") 
 }
 
 routerBD.post('/Proyect/Topic', async function(req, res){

@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { uploadFile } from "../controllers/FireBaseStorage.Controller.js";
+import { uploadFile ,delFile} from "../controllers/FireBaseStorage.Controller.js";
 import multer from "multer";
 
 const routerST = Router();
@@ -10,5 +10,6 @@ const routerST = Router();
 const upload = multer({storage: multer.memoryStorage()})
 
 routerST.post("/uploadFile", upload.single("filename") ,uploadFile);
+routerST.post("/delFile", upload.single("filename") ,delFile);
 
 export default routerST;
