@@ -14,9 +14,9 @@ function App() {
 
   return (
     <div>
-      <Header/>
-      <Home/>
-      <About/>
+      <Header key="Headernav"/>
+      <Home key="lcards"/>
+      <About key="Modals"/>
     </div>
   )
 }

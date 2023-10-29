@@ -1,56 +1,48 @@
 import React from 'react'
 
-const Switchselector = ({Obj,arr}) => {
-  
-    let arr[Obj]=false;
+import "./global"
 
-    function SWvrf(){
-        if (id=="CAT") {
-        arrcat[Obj]=!arrcat[Obj];
-    } else {
-        arrtam[Obj]=!arrtam[Obj];
-    }
-    let tex=""
-    labelcat.forEach((element,i) => {
-        if (i>0) {
+const Switchselector = ({tfilter,Obj,farr}) => {
 
-            if (arrcat[labelcat[i]]) {
-                tex+=" "+element; 
-            }
+    
+    const SWvrf=()=>{
+        farr[tfilter][Obj]=!farr[tfilter][Obj];
+        let tex=""
+        let setfil=false;
+        Object.entries(farr).forEach(([key, value]) => {
             
-        }
+            Object.entries(farr[key]).forEach(([skey, svalue]) => {
+                //console.log(` ${key} - ${skey} - ${svalue}`)
+                if (svalue) {
+                    tex+=" "+skey;
+                    setfil=true;
+                }
+            });
+        });
         
-    });
-    labeltam.forEach((element,i) => {
-        if (i>0) {
-            if (arrtam[labeltam[i]]) {
-                tex+=" "+element;
-            }
-            
+        let searching = document.getElementById("searching");//Boton busqueda
+    
+        if (!setfil) {
+            searching.disabled=false;
+            searching.placeholder="Search";
+        } else {
+            searching.disabled=true;
+            searching.placeholder="Clasificacion";
         }
-        
-    });
+        let Lsea= document.getElementById("NAV_SEA");//Lista Total
+        Lsea.innerHTML=tex
+    }
 
-    var setcat=labelcat.filter((e,i)=>arrcat[e]==true); 
-    var settam=labeltam.filter((e,i)=>arrtam[e]==true);
-    if (setcat.length==0&&settam.length==0) {
-        searching.disabled=false;
-        searching.placeholder="Search";
-    } else {
-        searching.disabled=true;
-        searching.placeholder="Clasificacion";
-    }
-    Lsea.innerHTML=tex
-    }
-  
     return (
         <>
             <div className="form-check form-switch px-5">
-                <input id={"SW_$"+Obj} className="form-check-input" type="checkbox" role="switch" onClick={`'SWvrf("${Obj}","${arr["IDENTY"]}")'`}/>
-                <label className="form-check-label" htmlFor={`SW_${Obj}">${Obj}`}/>
+                <input id={`SW_${Obj}`} className="form-check-input" type="checkbox" role="switch" onClick={SWvrf}/>
+                <label className="form-check-label" htmlFor={`SW_${Obj}`}>
+                {Obj}
+                </label>
             </div>
         </>
-  )
+    )
 }
 
 export default Switchselector

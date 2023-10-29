@@ -12,7 +12,7 @@ routerBD.get("/hello", function(req,res){
     res.json({"Hola": "Mundo"})
 })
 
-routerBD.get('/all', async function(req, res){
+routerBD.get('/Users', async function(req, res){
     try {
         const result = await Usuario.find()
         res.status(200).json(result)

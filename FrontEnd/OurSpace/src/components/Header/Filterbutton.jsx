@@ -1,39 +1,54 @@
 import React from 'react'
+import ReactDomServer from 'react-dom/server';
 import {useState,useEffect,useMemo} from 'react'
 import axios from 'axios'
 
-//import Switchselector from './switchselector'
 
-const useHover = () => {
-    const [hovering, setHovering] = useState("true");
+import Switchselector from './switchselector'
 
-    const eventHandlers = useMemo(
-        () => ({
-            onMouseEnter() {
-                const apiUrl = `http://localhost:3000/api/BD/Skills`
-                axios.get(apiUrl)
-                .then(response=>{
-                    //console.log(response)
-                    //setswitchselect(response.data);
-                    console.log(response.data);
-                })
-                .catch(error=>{
-                    console.log(error)
-                })
-                setHovering("true");
-            }
-            ,
-            onMouseLeave() {
-                setHovering("false");
-            }
-        }),
-        [hovering]
-    );
-
-    return [hovering, eventHandlers];
-};
-
-function Filterbutton({tfilter}) {
+function Filterbutton({tfilter,farr}) {
+    const useHover = () => {
+        const [hovering, setHovering] = useState([]);
+    
+        const eventHandlers = useMemo(
+            () => ({
+                onMouseEnter() {
+                    const apiUrl = `http://localhost:3000/api/BD/${tfilter}`
+                    axios.get(apiUrl)
+                    .then(res=>{
+                        let swelements=[];
+                        for (let i = 0; i < res.data.length; i++) {
+                            if (!Object.keys(farr[tfilter]).includes(res.data[i])) {
+                                farr[tfilter][res.data[i]]=false;
+                            }
+                        }
+                        for (let i = 0; i < res.data.length; i++) {
+                            swelements.push(
+                            <Switchselector
+                            tfilter={tfilter}
+                            Obj={res.data[i]}
+                            farr={farr}
+                            key={`SWE_${res.data[i]}`}
+                            />)
+                            //swelements = swelements.concat(res.data[i])
+                        }
+                        
+                        setHovering(swelements);
+                    })
+                    .catch(error=>{
+                        console.log(error)
+                    })
+                }
+                ,
+                // onMouseLeave() {
+                //     setHovering("false");
+                // }
+            }),
+            []
+        );
+    
+        return [hovering, eventHandlers];
+    };
     
     const [hovering, eventHandlers] = useHover();
 
