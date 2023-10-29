@@ -76,7 +76,7 @@ app.use("/",function(req,res){
                 },
                 "respuesta":{
                     "user": "nombre de usuario",                   
-                    "fileurl": "Link de acceso archivo a borrar".
+                    "fileurl": "Link de acceso archivo a borrar",
                 },
                 "respuesta_ejemplo":{
                     "name": "letshadow",
