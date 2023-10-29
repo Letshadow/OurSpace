@@ -1,5 +1,5 @@
 import dotenv from "dotenv"
-dotenv.config('FireBaseStorage.env')
+dotenv.config()
 
 // Your web app's Firebase configuration
 const myfirebaseConfig = {

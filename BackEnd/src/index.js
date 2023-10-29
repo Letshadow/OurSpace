@@ -4,7 +4,7 @@ import routesBD from "./routes/routesMongoDB.js";
 import dotenv from "dotenv";
 import mongoose from 'mongoose';
 
-dotenv.config('Server.env')//?
+dotenv.config()
 
 
 //configuracion Mongodb
@@ -699,9 +699,13 @@ app.use("/",function(req,res){
     })
 })
 
-//app.listen(process.env.Port)
-app.listen(3000,()=>{
-    console.log("Server UP")
+app.listen(process.env.PORT|| 3000,()=>{
+
+    console.log("Server UP for "+process.env.PORT)
 })
+
+/*app.listen(3000,()=>{
+    console.log("Server UP")
+})*/
 
 
