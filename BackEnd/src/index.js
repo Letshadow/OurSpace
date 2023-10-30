@@ -576,7 +576,7 @@ app.use("/",function(req,res){
                 },
                 "body test":{
                     "proyect":"Cajero",
-                    "focus":"Financiero"
+                    "topic":"Financiero"
                 }
             },
 
@@ -653,11 +653,7 @@ app.use("/",function(req,res){
                 "body":{
                     "name":"Nombre de usuario",
                     "pass":"contraseña",
-                    "proyects":[
-                        {
-                            "title":"titulo proyecto",
-                        }
-                    ]
+                    "proyects":["titulo proyecto"]
                 },
 
                 "respuesta":{
@@ -684,14 +680,7 @@ app.use("/",function(req,res){
                 "body test":{
                     "name":"sensei",
                     "pass":"perrito123",
-                    "proyects":[
-                        {
-                            "title":"Cajero",
-                        },
-                        {
-                            "title":"Pinteres",
-                        },
-                    ]
+                    "proyects":["Cajero","Pinteres"]
                 }
             },
 

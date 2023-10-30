@@ -167,14 +167,14 @@ routerBD.post('/User/Topics', async function(req, res){
         let result = await Proyect.find({ 
             topic:{ $in: topic} 
         },{"user":1,_id:0})
+        console.log(result)
 
-        result=result.map((elemennt)=>elemennt.user)
+        result=result.map((element)=>element.user)
+        
         
         result=await Usuario.find({"name": { $in: result}})
     
         return res.status(200).json(result)
-        
-
 
     } catch (error) {
         console.log(error)
@@ -279,7 +279,7 @@ routerBD.post('/User/Del/Contact', async function(req, res){
 
 /////
 
-routerBD.post('/User/Add/Skill', async function(req, res){
+routerBD.post('/User/Add/Skills', async function(req, res){
 
     const {name,pass,skills=[]}=req.body;      
 
@@ -318,7 +318,7 @@ routerBD.post('/User/Add/Skill', async function(req, res){
 
 })
 
-routerBD.post('/User/Del/Skill', async function(req, res){
+routerBD.post('/User/Del/Skills', async function(req, res){
 
     const {name,pass,skills=[]}=req.body;      
 
@@ -433,7 +433,7 @@ routerBD.post('/Skill/Focus', async function(req, res){
 
 })
 
-routerBD.post('/User/Add/Proyect', async function(req, res){
+routerBD.post('/User/Add/Proyects', async function(req, res){
 
     const {name,pass,proyects=[]}=req.body;      
 
@@ -472,7 +472,7 @@ routerBD.post('/User/Add/Proyect', async function(req, res){
 
 })
 
-routerBD.post('/User/Del/Proyect', async function(req, res){
+routerBD.post('/User/Del/Proyects', async function(req, res){
 
     const {name,pass,proyects=[]}=req.body;      
 
@@ -483,7 +483,7 @@ routerBD.post('/User/Del/Proyect', async function(req, res){
                 
                 var index = -1;
                 for (let i = 0; i < proyects.length; i++) {                    
-                    index = user.proyects.indexOf(proyects[i].title);
+                    index = user.proyects.indexOf(proyects[i]);
                     if (index > -1) {//proyect ya contiene usuario
                         user.proyects.splice(index, 1);
                     }else{
@@ -550,13 +550,13 @@ async function addproyects2user(name,userproyects){
 async function delproyects2user(name,userproyects){
     let userproyect=null;
     for (let i = 0; i < userproyects.length; i++) {
-        userproyect=await Proyect.findOne({title:userproyects[i].title});
+        userproyect=await Proyect.findOne({title:userproyects[i]});
         if(userproyect) {//proyect foud
             if (userproyect.user==name) {//proyect ya contiene usuario
-                await Proyect.deleteMany({title:userproyects[i].title});
-                console.log("delete "+userproyects[i].title)
+                await Proyect.deleteMany({title:userproyects[i]});
+                console.log("delete "+userproyects[i])
             }else{
-                console.log("Not user "+userproyects[i].title)
+                console.log("Not user "+userproyects[i])
             }
         }
     }
