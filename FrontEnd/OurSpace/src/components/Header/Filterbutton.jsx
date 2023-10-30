@@ -4,7 +4,7 @@ import {useState,useEffect,useMemo} from 'react'
 import axios from 'axios'
 
 
-import Switchselector from './switchselector'
+import Switchselector from './Switchselector'
 
 function Filterbutton({tfilter,farr}) {
     const useHover = () => {

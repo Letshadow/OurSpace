@@ -7,22 +7,6 @@ const apiUrl = `https://ourspace.up.railway.app/api/BD/`
 
 function Header() {
 
-    const colorg = [
-        "White",
-        "Tan",
-        "Turquoise",
-        "GreenYellow",
-        "yellow",
-        "Plum",
-        "Gold",
-        "LightSalmon",
-        "Pink",
-        "IndianRed",
-        "Brown",
-        "Navy",
-        "DarkCyan"
-    ];
-
     let Lfilterbuttons={};
     let Lfilters=["Skills","Topics"]
 

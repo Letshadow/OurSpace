@@ -1,7 +1,5 @@
 import React from 'react'
 
-import "./global"
-
 const Switchselector = ({tfilter,Obj,farr}) => {
 
     
