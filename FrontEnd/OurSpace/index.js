@@ -13,9 +13,11 @@ function dellocalstorage(key) {
 }
 
 function manage(element) {
-    const apiUrl = `http://localhost:3000/api/BD/`
-    const apiUrlst=`http://localhost:3000/api/ST/`
+    const apiUrl = `https://ourspace.up.railway.app/api/BD/`
+    const apiUrlst=`https://ourspace.up.railway.app/api/ST/`
     let uactual= document.getElementById("h_user")
+    let fileselector = document.getElementById("customFile")
+
     let aelement=element.id.split("_")
     let userm=getlocalstorage("auser")
     if (!userm) {
@@ -34,10 +36,51 @@ function manage(element) {
                     "pass":userm.pass,
                     "proyect": []
                 }
+                let aux="";
                 for (let i = 0; i < aproyect.length; i++) {
-                    reqaxios["proyect"][i]["title"]=aproyect[i];
-                    reqaxios["proyect"][i]["description"]=prompt(`Dijite una descripcion para el proyecto: aproyect[i]`)
                     
+                    aux=prompt(`Dijite una descripcion para el proyecto: aproyect[i]`)
+                    reqaxios["proyect"].push(
+                        {
+                            "title":aproyect[i],
+                            "description":aux
+                        }
+
+                    )
+
+                    //alert("seleccione el archivo HTML")
+                    fileselector.click()
+                    //alert("se ah seleccionado correctamente")
+                    const files=fileselector.file
+                    const formData = new FormData();
+
+                    for (let i = 0; i < files.length; i++) {
+                        let file = files[i];
+                        formData.append("file", file);
+                        formData.append("upload_preset", "docs_upload_example_us_preset");
+
+                        fetch(apiUrlst+"uploadFile", {
+                        method: "POST",
+                        body: {
+                            "name":userm.name,
+                            "filename":formData
+                        }
+                        })
+                        .then(data => {
+                            if (!data.ok) {
+                                throw Error(data.status);
+                            }
+                            return data.json();
+                        })
+                        .then((data)=>{
+                            alert(`tu informacion fue actualizada ${data}`)
+                        })
+                        .catch(e => {
+                            alert(e)
+                            console.log(e);
+                        });
+                        
+                    }
 
                     reqaxios["proyect"][i]["URLHTML"]=aproyect[i];
                     reqaxios["proyect"][i]["URLJS"]=aproyect[i];
@@ -265,7 +308,7 @@ function manage(element) {
 
 function login(element) {
     let uactual= document.getElementById("h_user")
-    const apiUrl = `http://localhost:3000/api/BD/`
+    const apiUrl = `https://ourspace.up.railway.app/api/BD/`
     let inusuario= document.getElementById("exampleUsuario")
     let inpass= document.getElementById("exampleInputPassword")
 
