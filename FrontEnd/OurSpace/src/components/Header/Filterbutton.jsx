@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDomServer from 'react-dom/server';
 import {useState,useEffect,useMemo} from 'react'
 import axios from 'axios'
-const apiUrl = `https://ourspace-bd.up.railway.app.app/api/BD/`
+const apiUrl = `https://ourspace-bd.up.railway.app/api/BD/`
 
 import Switchselector from './Switchselector'
 
