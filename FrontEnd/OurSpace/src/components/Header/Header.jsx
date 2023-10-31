@@ -2,7 +2,7 @@ import React from 'react'
 import "./header.css";
 import axios from 'axios'
 import Filterbutton from "./Filterbutton"
-import "../../../myfun"
+import "../../assets/myfun"
 const apiUrl = `https://ourspace-bd.up.railway.app/api/BD/`
 
 function Header() {
