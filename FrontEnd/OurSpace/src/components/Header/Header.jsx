@@ -5,10 +5,6 @@ import Filterbutton from "./Filterbutton"
 import "../../../index"
 const apiUrl = `https://ourspace-bd.up.railway.app/api/BD/`
 const apiUrlst=`https://ourspace-bd.up.railway.app/api/ST/`
-
-const apiUrl = `https://ourspace-bd.up.railway.app/api/BD/`
-const apiUrlst=`https://ourspace-bd.up.railway.app/api/ST/`
-
 function addlocalstorage(key,value) {
     localStorage.setItem(key,JSON.stringify(value))
 }
