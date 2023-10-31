@@ -49,20 +49,24 @@ function Header() {
                                         <button type="button" class="btn-close p-2" data-bs-dismiss="modal" aria-label="Close"></button>
                                     </div>`;
                     modaldes.innerHTML=`
-                    <form>
-                        <div class="mb-3">
+                    <div class="d-flex flex-column mb-3" >
+                        <div class="m-2">
                             <label for="exampleInputUsuario" class="form-label">Usuario</label>
                             <input type="text" class="form-control" id="exampleUsuario" aria-describedby="userHelp"
                             placeholder="digite un usuario">
                             <label id="userHelp" class="form-label" >Bienvenido a nuestro espacio</label>
                         </div>
-                        <div class="mb-3">
+                        <hr/>
+                        <div class="m-2">
                             <label for="exampleInputPassword" class="form-label">Password</label>
                             <input type="password" class="form-control" id="exampleInputPassword" placeholder="digite una contraseña">
                         </div>
-                        <button id="ubtn_sup" onclick="login(this)" type="submit" class="btn btn-info">Sign Up</button>
-                        <button id="ubtn_sin" onclick="login(this)" type="submit" class="btn btn-light">Sign In</button>
-                    </form>
+                        <div class="d-flex justify-content-between">
+                            <button id="ubtn_sup" onclick="login(this)" type="submit" class="m-2 btn btn-info">Sign Up</button>
+                            <hr/>
+                            <button id="ubtn_sin" onclick="login(this)" type="submit" class="m-2 btn btn-light">Sign In</button>
+                        </div>
+                    </div>
                     `;
 
                     modalfoot.innerHTML=`
@@ -93,15 +97,15 @@ function Header() {
                         </button>
                         <ul class="dropdown-menu">
                             <li class="bg-dark d-flex">
-                            <button id="sbtn_Add" onclick="manage(this)" type="submit" class="flex-fill btn btn-dark">Add</button>
+                            <button id="sbtn_Add" onclick="manage(this)" type="button" class="flex-fill btn btn-dark">Add</button>
                             </li>
 
                             <li class="bg-dark d-flex">
-                            <button id="sbtn_Focus" onclick="manage(this)" type="submit" class="flex-fill btn btn-dark">Focus</button>
+                            <button id="sbtn_Focus" onclick="manage(this)" type="button" class="flex-fill btn btn-dark">Focus</button>
                             </li>
                             
                             <li class="bg-dark d-flex">
-                            <button id="sbtn_Del" onclick="manage(this)" type="submit" class="flex-fill btn btn-dark">Del</button>
+                            <button id="sbtn_Del" onclick="manage(this)" type="button" class="flex-fill btn btn-dark">Del</button>
                             </li>
                         </ul>
                     </div>

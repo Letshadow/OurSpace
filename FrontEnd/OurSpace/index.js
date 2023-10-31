@@ -43,7 +43,8 @@ function manage(element) {
                     reqaxios["proyect"].push(
                         {
                             "title":aproyect[i],
-                            "description":aux
+                            "description":aux,
+                            "proyects":[]
                         }
 
                     )
@@ -82,12 +83,12 @@ function manage(element) {
                         
                     }
 
-                    reqaxios["proyect"][i]["URLHTML"]=aproyect[i];
-                    reqaxios["proyect"][i]["URLJS"]=aproyect[i];
-                    
+                    reqaxios["proyects"][i]={
+                        "URLHTML":aproyect[i],
+                        "URLJS":aproyect[i]
+                    }
                 }
-                
-                
+
                 const options = {
                     method: 'POST',
                     headers: {
@@ -307,13 +308,12 @@ function manage(element) {
 }
 
 function login(element) {
+
+    // e.preventDefault();
     let uactual= document.getElementById("h_user")
     const apiUrl = `https://ourspace.up.railway.app/api/BD/`
     let inusuario= document.getElementById("exampleUsuario")
     let inpass= document.getElementById("exampleInputPassword")
-
-    
-    //event.preventDefault();
 
     if (element.id=="ubtn_sup") {
 
@@ -405,22 +405,21 @@ function login(element) {
             let pass=inpass.value
             const reqaxios={
                 "name": name,
-                "pass": pass,
+                "pass": pass
             }
             if (reqaxios.name=="" || reqaxios.pass=="") {         
                 alert("Campos Vacios")
             } else {
                 const options = {
                     method: 'POST',
-                    headers: {
-                    'Content-Type': 'application/json',
-                },
+                    headers: {"Content-type":"application/json; charset=UTF-8"},
                     body: JSON.stringify(reqaxios),
-                };
+                };            
 
-                fetch(apiUrl+"User", options)
+                fetch("https://ourspace.up.railway.app/api/BD/User", options)
                 .then(data => {
                     if (!data.ok) {
+                        alert("hola?")
                         throw Error(data.status);
                     }
                     return data.json();
@@ -437,9 +436,12 @@ function login(element) {
                     }                    
                 })
                 .catch(e => {
+                    alert(options);
                     alert(e)
                     console.log(e);
                 });
+
+
             }
 
             console.log("clic en "+element.id)
